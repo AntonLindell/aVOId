@@ -12,12 +12,12 @@ const app = express();
 app.use(express.static('public'));
 
 if (process.env.NODE_ENV === 'development') {
-  // Setup Webpack for development
-  const compiler = webpack(webpackConfig);
-  app.use(webpackDevMiddleware(compiler));
+    // Setup Webpack for development
+    const compiler = webpack(webpackConfig);
+    app.use(webpackDevMiddleware(compiler));
 } else {
-  // Static serve the dist/ folder in production
-  app.use(express.static('dist'));
+    // Static serve the dist/ folder in production
+    app.use(express.static('dist'));
 }
 
 // Listen on port
@@ -29,25 +29,25 @@ console.log(`Server listening on port ${port}`);
 const io = socketio(server);
 
 // Listen for socket.io connections
-io.on('connection', socket => {
-  console.log('Player connected!', socket.id);
+io.on('connection', (socket) => {
+    console.log('Player connected!', socket.id);
 
-  socket.on(Constants.MSG_TYPES.JOIN_GAME, joinGame);
-  socket.on(Constants.MSG_TYPES.INPUT, handleInput);
-  socket.on('disconnect', onDisconnect);
+    socket.on(Constants.MSG_TYPES.JOIN_GAME, joinGame);
+    socket.on(Constants.MSG_TYPES.INPUT, handleInput);
+    socket.on('disconnect', onDisconnect);
 });
 
 // Setup the Game
 const game = new Game();
 
 function joinGame(username) {
-  game.addPlayer(this, username);
+    game.addPlayer(this, username);
 }
 
 function handleInput(dir) {
-  game.handleInput(this, dir);
+    game.handleInput(this, dir);
 }
 
 function onDisconnect() {
-  game.removePlayer(this);
+    game.removePlayer(this);
 }
