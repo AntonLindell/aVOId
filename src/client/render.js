@@ -69,10 +69,8 @@ function render() {
     renderPlayer(me, me);
     renderPlayerLine(me);
     others.forEach(renderPlayer.bind(null, me));
-    // others.forEach(renderPlayerLine.bind(player));
     others.forEach((player) => {
         renderPlayerLine(player);
-        // console.log(player);
     });
 }
 
@@ -96,45 +94,37 @@ function renderBackground(x, y) {
 function renderPlayerLine(player) {
     const {locationHistory, selectedScooter} = player;
     // Draw history
+    // context.beginPath();
+
     context.lineWidth = 5;
-<<<<<<< HEAD
     context.strokeStyle = colors[selectedScooter];
-    context.moveTo(locationHistory[locationHistory.length - 2].x, locationHistory[locationHistory.length - 2].y);
-    context.lineTo(locationHistory[locationHistory.length - 1].x, locationHistory[locationHistory.length - 1].y);
-=======
-
-    const players = {
-        'player1Id': [],
-        'player2Id': []
-    }
-
-    context.moveTo(locationHistory[0].x, locationHistory[0].y);
-    locationHistory.forEach(function(location) {
-        context.lineTo(location.x, location.y);
-    });
->>>>>>> Draw others
-    context.lineTo(player.x, player.y);
-    context.stroke();
-}
-
-function renderOtherPlayersLine(player) {
-    const {locationHistoryFull} = player;
-
-    playersPositions[player.id] = {x: player.x, y: player.y};
-
-
-    var locationHistory = getLocationHistoryAfterLastSeenLocation(playersPositions[player.id],locationHistoryFull);
-
-    // Draw history
-    context.lineWidth = 5;
-
     context.moveTo(locationHistory[0].x, locationHistory[0].y);
     locationHistory.forEach(function(location) {
         context.lineTo(location.x, location.y);
     });
     context.lineTo(player.x, player.y);
     context.stroke();
+
 }
+
+// function renderOtherPlayersLine(player) {
+//     const {locationHistoryFull} = player;
+
+//     playersPositions[player.id] = {x: player.x, y: player.y};
+
+
+//     var locationHistory = getLocationHistoryAfterLastSeenLocation(playersPositions[player.id],locationHistoryFull);
+
+//     // Draw history
+//     context.lineWidth = 5;
+
+//     context.moveTo(locationHistory[0].x, locationHistory[0].y);
+//     locationHistory.forEach(function(location) {
+//         context.lineTo(location.x, location.y);
+//     });
+//     context.lineTo(player.x, player.y);
+//     context.stroke();
+// }
 // Renders a ship at the given coordinates
 function renderPlayer(me, player) {
     const {x, y, direction, selectedScooter} = player;
