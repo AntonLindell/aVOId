@@ -25,7 +25,7 @@ class Object {
         this.y -= dt * this.speed * Math.cos(this.direction);
 
         // if(this.lastDirection !== this.direction) {
-        this.locationHistory.push({x: this.x, y: this.y});
+            this.locationHistory.push({x: this.x, y: this.y});
         // }
         this.lastDirection = this.direction;
     }

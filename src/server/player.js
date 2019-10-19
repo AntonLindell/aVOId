@@ -10,6 +10,7 @@ class Player extends ObjectClass {
         this.fireCooldown = 0;
         this.score = 0;
         this.selectedScooter = selectedScooter;
+        this.collision = false;
         this.endPowerUp = 0;
     }
 
@@ -61,7 +62,8 @@ class Player extends ObjectClass {
             ...(super.serializeForUpdate()),
             direction: this.direction,
             hp: this.hp,
-            selectedScooter: this.selectedScooter
+            selectedScooter: this.selectedScooter,
+            collision: this.collision
         };
     }
 }
