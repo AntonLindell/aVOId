@@ -65,7 +65,6 @@ function render() {
     renderPlayer(me, me);
     renderPlayerLine(me);
     others.forEach(renderPlayer.bind(null, me));
-    // others.forEach(renderPlayerLine.bind(player));
     others.forEach((player) => {
         renderPlayerLine(player);
     });
