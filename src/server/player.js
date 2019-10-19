@@ -1,5 +1,4 @@
 const ObjectClass = require('./object');
-const Bullet = require('./bullet');
 const Constants = require('../shared/constants');
 
 const logos = {
@@ -33,6 +32,7 @@ class Player extends ObjectClass {
         this.collision = false;
         this.logo = logos[selectedScooter];
         this.color = colors[selectedScooter];
+        this.endPowerUp = 0;
     }
 
     // Returns a newly created bullet, or null.
@@ -41,6 +41,10 @@ class Player extends ObjectClass {
 
         // Update score
         this.score += dt * Constants.SCORE_PER_SECOND;
+
+        console.log(Date.now() - this.endPowerUp)
+
+        if ( Date.now() - this.endPowerUp > 15000 ) {this.speed = Constants.PLAYER_SPEED}
 
         // Make sure the player stays in bounds
 
@@ -57,18 +61,17 @@ class Player extends ObjectClass {
             this.y = Constants.MAP_HEIGHT;
         }
 
-        // Fire a bullet, if needed
-        this.fireCooldown -= dt;
-        if (this.fireCooldown <= 0) {
-            this.fireCooldown += Constants.PLAYER_FIRE_COOLDOWN;
-            return new Bullet(this.id, this.x, this.y, this.direction);
-        }
 
         return null;
     }
 
     takeBulletDamage() {
         this.hp -= Constants.BULLET_DAMAGE;
+    }
+
+    getPowerUp(type) {
+        this.speed = Constants.PLAYER_SPEED * 3;
+        this.endPowerUp = Date.now();
     }
 
     onDealtDamage() {

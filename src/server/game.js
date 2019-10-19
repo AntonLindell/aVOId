@@ -1,12 +1,13 @@
 const Constants = require('../shared/constants');
 const Player = require('./player');
+const PowerUp = require('./powerup');
 const applyCollisions = require('./collisions');
 
 class Game {
     constructor() {
         this.sockets = {};
         this.players = {};
-        this.bullets = [];
+        this.powerUps = [];
         this.lastUpdateTime = Date.now();
         this.shouldSendUpdate = false;
         setInterval(this.update.bind(this), 1000 / 60);
@@ -35,6 +36,7 @@ class Game {
     isCollidingPlayer() {
 
     }
+
     checkCollision() {
         // for
         const margin = 2;
@@ -44,8 +46,9 @@ class Game {
         var player2x;
         var player2y;
         var locationHistory;
-        var ownLocationHistory
-        Object.keys(this.players).forEach(playerId => {
+        var ownLocationHistory;
+
+      Object.keys(this.players).forEach(playerId => {
             otherPlayers = Object.values(this.players).filter(p => p !== this.players[playerId]);
             player1x = this.players[playerId].x;
             player1y = this.players[playerId].y;
@@ -53,22 +56,23 @@ class Game {
             Object.keys(otherPlayers).forEach(otherPlayerId => {
                 //gå igenom locationHistory för varje spelare
                 locationHistory = otherPlayers[otherPlayerId].locationHistory;
+
                 if(ownLocationHistory.length > 20) {
-                    // locationHistory.push(ownLocationHistory.slice(0,Math.max(ownLocationHistory.length - 20, 0)));
+                  // locationHistory.push(ownLocationHistory.slice(0,Math.max(ownLocationHistory.length - 20, 0)));
                 }
                 locationHistory.forEach((location) => {
                     player2x = location.x;
                     player2y = location.y;
+
                     if((player1x > player2x - margin && player1x < player2x + margin) && (player1y > player2y - margin && player1y < player2y + margin)) {
                         console.log("collision from " + this.players[playerId].username + " with " + otherPlayers[otherPlayerId].username);
-                        this.players[playerId].hp = 0;
+
+                      this.players[playerId].hp = 0;
                         // this.sockets[playerId].emit(Constants.MSG_TYPES.GAME_OVER);
                         // this.removePlayer(this.sockets[playerId]);
                     }
                 });
-
-            })
-
+            });
         });
     }
 
@@ -79,33 +83,36 @@ class Game {
         this.lastUpdateTime = now;
         this.checkCollision();
 
-        // Update each bullet
-        const bulletsToRemove = [];
-        this.bullets.forEach(bullet => {
-            if (bullet.update(dt)) {
+        // Update each powerup
+        const powerUpsToRemove = [];
+        this.powerUps.forEach(powerUp => {
+            if (powerUp.update(dt)) {
                 // Destroy this bullet
-                bulletsToRemove.push(bullet);
-            }
+              powerUpsToRemove.push(powerUp);
+                }
         });
-        this.bullets = this.bullets.filter(bullet => !bulletsToRemove.includes(bullet));
+        this.powerUps = this.powerUps.filter(powerUp => !powerUpsToRemove.includes(powerUp));
 
         // Update each player
         Object.keys(this.sockets).forEach(playerID => {
             const player = this.players[playerID];
-            const newBullet = player.update(dt);
-            if (newBullet) {
-                this.bullets.push(newBullet);
-            }
+            player.update(dt);
         });
 
-        // Apply collisions, give players score for hitting bullets
-        const destroyedBullets = applyCollisions(Object.values(this.players), this.bullets);
-        destroyedBullets.forEach(b => {
-            if (this.players[b.parentID]) {
-                this.players[b.parentID].onDealtDamage();
-            }
-        });
-        this.bullets = this.bullets.filter(bullet => !destroyedBullets.includes(bullet));
+        // randomly insert a powerup
+        if ( Math.random() > 0.99) {
+            const newPowerUp = new PowerUp('speed', Math.random()*Constants.MAP_HEIGHT, Math.random() * Constants.MAP_WIDTH, 0);
+            this.powerUps.push(newPowerUp)
+        }
+
+        // Apply collisions, give players score for hitting powerUps
+        const destroyedPowerUps = applyCollisions(Object.values(this.players), this.powerUps);
+        this.powerUps = this.powerUps.filter(powerup => !destroyedPowerUps.includes(powerup));
+        // randomly insert a powerup
+        if (Math.random() > 0.99) {
+            const newPowerUp = new PowerUp('speed', Math.random() * Constants.MAP_HEIGHT, Math.random() * Constants.MAP_WIDTH, 0);
+            this.powerUps.push(newPowerUp);
+        }
 
         // Check if any players are dead
         Object.keys(this.sockets).forEach(playerID => {
@@ -140,15 +147,12 @@ class Game {
 
     createUpdate(player, leaderboard) {
         const nearbyPlayers = Object.values(this.players).filter(p => p !== player);
-        const nearbyBullets = this.bullets.filter(
-            b => b.distanceTo(player) <= Constants.MAP_SIZE / 2
-            );
 
         return {
             t: Date.now(),
             me: player.serializeForUpdate(),
             others: nearbyPlayers.map(p => p.serializeForUpdate()),
-            bullets: nearbyBullets.map(b => b.serializeForUpdate()),
+            powerUps: this.powerUps.map(b => b.serializeForUpdate()),
             leaderboard
         };
     }

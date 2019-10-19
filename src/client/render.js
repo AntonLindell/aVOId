@@ -6,7 +6,7 @@ import {getCurrentState} from './state';
 
 const Constants = require('../shared/constants');
 
-const {PLAYER_RADIUS, MAP_SIZE} = Constants;
+const {PLAYER_RADIUS, MAP_SIZE, BULLET_RADIUS} = Constants;
 
 // every players last seen position locally for client
 // const playersPositions = [];
@@ -49,7 +49,7 @@ function setCanvasDimensions() {
 window.addEventListener('resize', debounce(40, setCanvasDimensions));
 
 function render() {
-    const {me, others} = getCurrentState();
+    const {me, others, powerUps} = getCurrentState();
     if (!me) {
         return;
     }
@@ -67,6 +67,11 @@ function render() {
     });
     renderPlayer(me, me);
     others.forEach(player => renderPlayer(me, player));
+
+    powerUps.forEach((player) => {
+        renderPowerUp(player);
+        console.log(player);
+    });
 }
 
 function renderBackground(x, y) {
@@ -133,6 +138,23 @@ function renderPlayer(me, player) {
     );
     context.restore();
 }
+
+function renderPowerUp(bullet) {
+
+    const {x, y} = bullet;
+    context.save();
+    context.translate(x, y);
+
+    context.drawImage(
+        getAsset('cash.svg'),
+        -BULLET_RADIUS,
+        -BULLET_RADIUS,
+        BULLET_RADIUS * 2,
+        BULLET_RADIUS * 2
+    );
+    context.restore();
+}
+
 
 function renderMainMenu() {
     const t = Date.now() / 7500;
