@@ -68,7 +68,6 @@ function render() {
     // others.forEach(renderPlayerLine.bind(player));
     others.forEach((player) => {
         renderPlayerLine(player);
-        //console.log(player);
     });
 
     powerUps.forEach((player) => {
@@ -109,6 +108,7 @@ function renderPlayerLine(player) {
     // });
     context.stroke();
 }
+
 // Renders a ship at the given coordinates
 function renderPlayer(me, player) {
     const {x, y, direction, selectedScooter} = player;
@@ -132,22 +132,21 @@ function renderPlayer(me, player) {
     context.restore();
 }
 
-    function renderPowerUp( bullet) {
+function renderPowerUp(bullet) {
 
-      const { x, y } = bullet;
-      context.save();
-      context.translate(x, y);
+    const {x, y} = bullet;
+    context.save();
+    context.translate(x, y);
 
-      context.drawImage(
+    context.drawImage(
         getAsset('cash.svg'),
-         -BULLET_RADIUS,
-         -BULLET_RADIUS,
-        BULLET_RADIUS *2 ,
-        BULLET_RADIUS *2 ,
-      );
-      context.restore();
-    }
-
+        -BULLET_RADIUS,
+        -BULLET_RADIUS,
+        BULLET_RADIUS * 2,
+        BULLET_RADIUS * 2
+    );
+    context.restore();
+}
 
 
 function renderMainMenu() {

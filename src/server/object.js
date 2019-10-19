@@ -9,6 +9,7 @@ class Object {
         this.lastDirection = dir;
         this.turnLeft = false;
         this.turnRight = false;
+        this.lastSeenLocation = {x, y};
     }
 
     update(dt) {
@@ -47,12 +48,25 @@ class Object {
         }
     }
 
+    getLocationHistoryAfterLastSeenLocation(location) {
+        var pos = this.locationHistory.find((value, index) => {
+            if(value.x === location.x && value.y === location.y){
+                return index;
+            } else {
+                return 0;
+            }
+        });
+        return this.locationHistory.slice(pos, this.locationHistory.length - 1);
+    }
+
     serializeForUpdate() {
         return {
             id: this.id,
             x: this.x,
             y: this.y,
-            locationHistory: this.locationHistory.slice(this.locationHistory.length - 3, this.locationHistory.length - 1)
+            // locationHistoryFull: this.getLocationHistoryAfterLastSeenLocation(this.lastSeenLocation),
+            locationHistory: this.locationHistory.slice(this.locationHistory.length - 3, this.locationHistory.length - 1),
+            // locationHistorySince
         };
     }
 }

@@ -44,7 +44,7 @@ class Game {
         this.powerUps.forEach(powerUp => {
             if (powerUp.update(dt)) {
                 // Destroy this bullet
-              powerUpsToRemove.push(powerUp);
+                powerUpsToRemove.push(powerUp);
             }
         });
         this.powerUps = this.powerUps.filter(powerUp => !powerUpsToRemove.includes(powerUp));
@@ -56,9 +56,9 @@ class Game {
         });
 
         // randomly insert a powerup
-        if ( Math.random() > 0.99) {
-            const newPowerUp = new PowerUp('speed', Math.random()*Constants.MAP_HEIGHT, Math.random() * Constants.MAP_WIDTH, 0);
-            this.powerUps.push(newPowerUp)
+        if (Math.random() > 0.99) {
+            const newPowerUp = new PowerUp('speed', Math.random() * Constants.MAP_HEIGHT, Math.random() * Constants.MAP_WIDTH, 0);
+            this.powerUps.push(newPowerUp);
         }
 
         // Apply collisions, give players score for hitting powerUps
@@ -97,13 +97,7 @@ class Game {
     }
 
     createUpdate(player, leaderboard) {
-        const nearbyPlayers = Object.values(this.players).filter(
-            p => p !== player && p.distanceTo(player) <= Constants.MAP_SIZE / 2
-        );
-        const nearbyBullets = this.powerUps.filter(
-            b => b.distanceTo(player) <= Constants.MAP_SIZE / 2
-        );
-
+        const nearbyPlayers = Object.values(this.players).filter(p => p !== player);
         return {
             t: Date.now(),
             me: player.serializeForUpdate(),
