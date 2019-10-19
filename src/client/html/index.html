@@ -3,7 +3,7 @@
 <head>
   <title>An example .io game</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-  <link rel="shortcut icon" href="/assets/icon64.png">
+  <link rel="shortcut icon" href="/assets/voi-logo.png">
   <meta property="description" content="A complete example multiplayer .io web game implemented from scratch. Built with Javascript and Node.js. Open source on Github.">
   <meta property="og:title" content="An example .io game">
   <meta property="og:description" content="A complete example multiplayer .io web game implemented from scratch. Built with Javascript and Node.js. Open source on Github.">
@@ -18,46 +18,83 @@
   </script>
 </head>
 <body>
-  <canvas id="game-canvas" style="width: 100vw; height: 100vh;"></canvas>
-  <div id="play-menu" class="hidden">
-    <h1>An example .io game</h1>
-    <p>
-      Stay alive and shoot other players.
-      <br />
-      Use your mouse to move.
-    </p>
-    <hr />
-    <p>
-      <!-- <br /> -->
-      Read the tutorial: <a href="https://victorzhou.com/blog/build-an-io-game-part-1/" target="_blank">How to Build an .io Game</a>.
-      <br />
-      See the source code on <a href="https://github.com/vzhou842/example-.io-game" target="_blank">Github</a>.
-      <br />
-      Created by <a href="https://victorzhou.com">Victor Zhou</a>.
-    </p>
-    <hr />
-    <input type="text" id="username-input" placeholder="Username" />
-    <button id="play-button">PLAY</button>
-  </div>
-  <div id="leaderboard" class="hidden">
-    <table>
-      <tr>
-        <th>Username</th>
-        <th>Score</th>
-      </tr>
-      <tr><td></td><td></td></tr>
-      <tr><td></td><td></td></tr>
-      <tr><td></td><td></td></tr>
-      <tr><td></td><td></td></tr>
-      <tr><td></td><td></td></tr>
-    </table>
-  </div>
-  <div id="disconnect-modal" class="hidden">
+<canvas id="game-canvas"></canvas>
+<div id="play-menu" class="hidden">
+  <h1>The battle of Stockholm</h1>
+  <p>
+    Claim the largest territory (venture cap) to survive in the scooter world.
+    <br />
+    Use your left and right arrows.
+  </p>
+  <hr />
+  <hr />
+  <input type="text" id="username-input" placeholder="Username" />
+  <hr />
+
+  <div style="display: flex; flex-direction: column; align-items: flex-start">
+    <p style="font-weight: bold; margin-bottom: 10px;">Choose your scooter:</p>
+
     <div>
-      <h2>Disconnected from Server </h2>
-      <hr />
-      <button id="reconnect-button">RECONNECT</button>
+      <input type="radio" id="voi" name="scooter" value="voi" checked>
+      <label for="voi">Voi</label>
+    </div>
+
+    <div>
+      <input type="radio" id="lime" name="scooter" value="lime">
+      <label for="lime">Lime</label>
+    </div>
+
+        <div>
+      <input type="radio" id="circ" name="scooter" value="circ">
+      <label for="circ">Circ</label>
+    </div>
+
+    <div>
+      <input type="radio" id="vosh" name="scooter" value="vosh">
+      <label for="vosh">Vosh</label>
+    </div>
+
+        <div>
+      <input type="radio" id="aimo" name="scooter" value="aimo">
+      <label for="voi">Aimo</label>
+    </div>
+
+    <div>
+      <input type="radio" id="moow" name="scooter" value="moow">
+      <label for="moow">Moow</label>
+    </div>
+
+        <div>
+      <input type="radio" id="tier" name="scooter" value="tier">
+      <label for="tier">Tier</label>
+    </div>
+
+    <div>
+      <input type="radio" id="bird" name="scooter" value="bird">
+      <label for="bird">Bird</label>
     </div>
   </div>
+  <button id="play-button">Join game</button>
+</div>
+<div id="leaderboard" class="hidden">
+  <table>
+    <tr>
+      <th>Username</th>
+      <th>Score</th>
+    </tr>
+    <tr><td></td><td></td></tr>
+    <tr><td></td><td></td></tr>
+    <tr><td></td><td></td></tr>
+    <tr><td></td><td></td></tr>
+    <tr><td></td><td></td></tr>
+  </table>
+</div>
+<div id="disconnect-modal" class="hidden">
+  <div>
+    <h2>Disconnected from Server </h2>
+    <hr />
+    <button id="reconnect-button"></button>
+  </div>
+</div>
 </body>
 </html>
