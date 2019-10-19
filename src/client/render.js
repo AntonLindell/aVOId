@@ -20,7 +20,7 @@ setCanvasDimensions();
 function setCanvasDimensions() {
     // On small screens (e.g. phones), we want to "zoom out" so players can still see at least
     // 800 in-game units of width.
-    const scaleRatio = Math.max(1, 800 / window.innerWidth);
+    const scaleRatio = 1;
     canvas.width = scaleRatio * window.innerWidth;
     canvas.height = scaleRatio * window.innerHeight;
 }
@@ -39,12 +39,17 @@ function render() {
     // Draw boundaries
     context.strokeStyle = 'black';
     context.lineWidth = 1;
-    context.strokeRect(canvas.width / 2 - me.x, canvas.height / 2 - me.y, MAP_SIZE, MAP_SIZE);
+    // context.strokeRect(canvas.width / 2 - me.x, canvas.height / 2 - me.y, MAP_SIZE, MAP_SIZE);
 
     // Draw all players
     renderPlayer(me, me);
     renderPlayerLine(me);
     others.forEach(renderPlayer.bind(null, me));
+    // others.forEach(renderPlayerLine.bind(player));
+    others.forEach((player) => {
+        renderPlayerLine(player);
+        console.log(player);
+    });
 }
 
 function renderBackground(x, y) {
@@ -65,20 +70,25 @@ function renderBackground(x, y) {
 }
 
 function renderPlayerLine(player) {
-    const {locationHistory} = player;
+    const {x, y, locationHistory} = player;
     // Draw history
     context.lineWidth = 5;
-    context.moveTo(locationHistory[0].x, locationHistory[0].y);
-    locationHistory.forEach(function(location) {
-        context.lineTo(location.x, location.y);
-    });
+    context.moveTo(locationHistory[locationHistory.length - 2].x, locationHistory[locationHistory.length - 2].y);
+    context.lineTo(locationHistory[locationHistory.length - 1].x, locationHistory[locationHistory.length - 1].y);
+    context.lineTo(player.x, player.y);
+
+    // locationHistory.forEach(function(location) {
+    //     context.lineTo(location.x, location.y);
+    // });
     context.stroke();
 }
 // Renders a ship at the given coordinates
 function renderPlayer(me, player) {
     const {x, y, direction, locationHistory} = player;
-    const canvasX = canvas.width / 2 + x - me.x;
-    const canvasY = canvas.height / 2 + y - me.y;
+    // const canvasX = canvas.width / 2 + x - me.x;
+    // const canvasY = canvas.height / 2 + y - me.y;
+    const canvasX = x;
+    const canvasY = y;
 
     // Draw ship
     context.save();

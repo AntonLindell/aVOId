@@ -73,9 +73,9 @@ export function getCurrentState() {
 }
 
 function interpolateObject(object1, object2, ratio) {
-    if (!object2) {
+    // if (!object2) {
         return object1;
-    }
+    // }
 
     const interpolated = {};
     Object.keys(object1).forEach((key) => {

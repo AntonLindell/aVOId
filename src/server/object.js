@@ -5,7 +5,7 @@ class Object {
         this.y = y;
         this.direction = dir;
         this.speed = speed;
-        this.locationHistory = [{x, y}];
+        this.locationHistory = [{x, y}, {x,y}, {x,y}];
         this.lastDirection = dir;
         this.turnLeft = false;
         this.turnRight = false;
@@ -23,9 +23,9 @@ class Object {
         this.x += dt * this.speed * Math.sin(this.direction);
         this.y -= dt * this.speed * Math.cos(this.direction);
 
-        if(this.lastDirection !== this.direction) {
+        // if(this.lastDirection !== this.direction) {
             this.locationHistory.push({x: this.x, y: this.y});
-        }
+        // }
         this.lastDirection = this.direction;
     }
 
@@ -52,7 +52,7 @@ class Object {
             id: this.id,
             x: this.x,
             y: this.y,
-            locationHistory: this.locationHistory
+            locationHistory: this.locationHistory.slice(this.locationHistory.length - 3, this.locationHistory.length - 1)
         };
     }
 }
