@@ -8,6 +8,9 @@ const Constants = require('../shared/constants');
 
 const {PLAYER_RADIUS, MAP_SIZE, BULLET_RADIUS} = Constants;
 
+// every players last seen position locally for client
+// const playersPositions = [];
+
 // Get the canvas graphics context
 const canvas = document.getElementById('game-canvas');
 const context = canvas.getContext('2d');
@@ -69,7 +72,6 @@ function render() {
         renderPowerUp(player);
         console.log(player);
     });
-
 }
 
 function renderBackground(x, y) {
@@ -134,7 +136,6 @@ function renderPlayer(me, player) {
         PLAYER_RADIUS * 2,
         PLAYER_RADIUS * 2
     );
-
     context.restore();
 }
 
