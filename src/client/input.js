@@ -2,17 +2,27 @@
 // https://victorzhou.com/blog/build-an-io-game-part-1/#6-client-input-%EF%B8%8F
 import {updateDirection} from './networking';
 
-function onKeyInput(e) {
+function onKeyDown(e) {
   console.log(e.code);
   if (e.code == 'ArrowLeft') {
-    updateDirection(-1/(2*Math.PI))
+    updateDirection('leftDown')
   } else if (e.code == 'ArrowRight') {
-    updateDirection(1/(2*Math.PI))
+    updateDirection('rightDown')
+  }
+}
+
+function onKeyUp(e) {
+  console.log(e.code);
+  if (e.code == 'ArrowLeft') {
+    updateDirection('leftUp')
+  } else if (e.code == 'ArrowRight') {
+    updateDirection('rightUp') //2/(2*Math.PI)
   }
 }
 
 export function startCapturingInput() {
-    window.addEventListener('keydown', onKeyInput);
+    window.addEventListener('keydown', onKeyDown);
+    window.addEventListener('keyup', onKeyUp);
 }
 
 export function stopCapturingInput() {

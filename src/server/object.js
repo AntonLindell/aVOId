@@ -7,9 +7,19 @@ class Object {
         this.speed = speed;
         this.locationHistory = [{x, y}];
         this.lastDirection = dir;
+        this.turnLeft = false;
+        this.turnRight = false;
     }
 
     update(dt) {
+        if(this.turnRight) {
+          this.direction = this.direction + 1/(4*Math.PI)
+        }
+
+        if(this.turnLeft) {
+          this.direction = this.direction - 1/(4*Math.PI)
+        }
+
         this.x += dt * this.speed * Math.sin(this.direction);
         this.y -= dt * this.speed * Math.cos(this.direction);
 
@@ -26,7 +36,15 @@ class Object {
     }
 
     setDirection(dir) {
-        this.direction = this.direction + dir;
+        if (dir == 'leftDown') {
+          this.turnLeft = true
+        } else if (dir == 'rightDown') {
+          this.turnRight = true
+        } else if (dir == 'leftUp') {
+          this.turnLeft = false
+        } else if (dir == 'rightUp') {
+          this.turnRight = false
+        }
     }
 
     serializeForUpdate() {
