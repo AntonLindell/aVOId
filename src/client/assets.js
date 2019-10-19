@@ -7,7 +7,8 @@ const ASSET_NAMES = [
     'moow-logo.png',
     'circ-logo.png',
     'vosh-logo.jpg',
-    'aimo-logo.png'
+    'aimo-logo.png',
+    'cash.svg'
 ];
 
 const assets = {};

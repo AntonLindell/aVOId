@@ -4,8 +4,8 @@ module.exports = Object.freeze({
     PLAYER_SPEED: 100,
     PLAYER_FIRE_COOLDOWN: 0.25,
 
-    BULLET_RADIUS: 3,
-    BULLET_SPEED: 800,
+    BULLET_RADIUS: 30,
+    BULLET_SPEED: 0,
     BULLET_DAMAGE: 10,
 
     SCORE_BULLET_HIT: 20,

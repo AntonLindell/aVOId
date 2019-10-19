@@ -1,12 +1,13 @@
 const Constants = require('../shared/constants');
 const Player = require('./player');
+const PowerUp = require('./powerup');
 const applyCollisions = require('./collisions');
 
 class Game {
     constructor() {
         this.sockets = {};
         this.players = {};
-        this.bullets = [];
+        this.powerUps = [];
         this.lastUpdateTime = Date.now();
         this.shouldSendUpdate = false;
         setInterval(this.update.bind(this), 1000 / 60);
@@ -38,33 +39,31 @@ class Game {
         const dt = (now - this.lastUpdateTime) / 1000;
         this.lastUpdateTime = now;
 
-        // Update each bullet
-        const bulletsToRemove = [];
-        this.bullets.forEach(bullet => {
-            if (bullet.update(dt)) {
+        // Update each powerup
+        const powerUpsToRemove = [];
+        this.powerUps.forEach(powerUp => {
+            if (powerUp.update(dt)) {
                 // Destroy this bullet
-                bulletsToRemove.push(bullet);
+              powerUpsToRemove.push(powerUp);
             }
         });
-        this.bullets = this.bullets.filter(bullet => !bulletsToRemove.includes(bullet));
+        this.powerUps = this.powerUps.filter(powerUp => !powerUpsToRemove.includes(powerUp));
 
         // Update each player
         Object.keys(this.sockets).forEach(playerID => {
             const player = this.players[playerID];
-            const newBullet = player.update(dt);
-            if (newBullet) {
-                this.bullets.push(newBullet);
-            }
+            player.update(dt);
         });
 
-        // Apply collisions, give players score for hitting bullets
-        const destroyedBullets = applyCollisions(Object.values(this.players), this.bullets);
-        destroyedBullets.forEach(b => {
-            if (this.players[b.parentID]) {
-                this.players[b.parentID].onDealtDamage();
-            }
-        });
-        this.bullets = this.bullets.filter(bullet => !destroyedBullets.includes(bullet));
+        // randomly insert a powerup
+        if ( Math.random() > 0.99) {
+            const newPowerUp = new PowerUp('speed', Math.random()*Constants.MAP_HEIGHT, Math.random() * Constants.MAP_WIDTH, 0);
+            this.powerUps.push(newPowerUp)
+        }
+
+        // Apply collisions, give players score for hitting powerUps
+        const destroyedPowerUps = applyCollisions(Object.values(this.players), this.powerUps);
+        this.powerUps = this.powerUps.filter(powerup => !destroyedPowerUps.includes(powerup));
 
         // Check if any players are dead
         Object.keys(this.sockets).forEach(playerID => {
@@ -101,7 +100,7 @@ class Game {
         const nearbyPlayers = Object.values(this.players).filter(
             p => p !== player && p.distanceTo(player) <= Constants.MAP_SIZE / 2
         );
-        const nearbyBullets = this.bullets.filter(
+        const nearbyBullets = this.powerUps.filter(
             b => b.distanceTo(player) <= Constants.MAP_SIZE / 2
         );
 
@@ -109,7 +108,7 @@ class Game {
             t: Date.now(),
             me: player.serializeForUpdate(),
             others: nearbyPlayers.map(p => p.serializeForUpdate()),
-            bullets: nearbyBullets.map(b => b.serializeForUpdate()),
+            powerUps: this.powerUps.map(b => b.serializeForUpdate()),
             leaderboard
         };
     }

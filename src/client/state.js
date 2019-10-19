@@ -47,7 +47,7 @@ function getBaseUpdate() {
     return -1;
 }
 
-// Returns { me, others, bullets }
+// Returns { me, others, powerUps }
 export function getCurrentState() {
     if (!firstServerTimestamp) {
         return {};
@@ -67,7 +67,7 @@ export function getCurrentState() {
         return {
             me: interpolateObject(baseUpdate.me, next.me, ratio),
             others: interpolateObjectArray(baseUpdate.others, next.others, ratio),
-            bullets: interpolateObjectArray(baseUpdate.bullets, next.bullets, ratio)
+            powerUps: baseUpdate.powerUps
         };
     }
 }
@@ -83,7 +83,8 @@ function interpolateObject(object1, object2, ratio) {
             interpolated[key] = interpolateDirection(object1[key], object2[key], ratio);
         } else if (key === 'locationHistory') {
             interpolated[key] = object1[key];
-        }else {
+        }
+        else {
             interpolated[key] = object1[key] + (object2[key] - object1[key]) * ratio;
         }
     });
