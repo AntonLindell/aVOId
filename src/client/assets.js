@@ -2,7 +2,12 @@ const ASSET_NAMES = [
     'ship.svg',
     'bullet.svg',
     'voi-logo.svg',
-    'lime-logo.png'
+    'lime-logo.png',
+    'tier-logo.png',
+    'moow-logo.png',
+    'circ-logo.png',
+    'vosh-logo.jpg',
+    'aimo-logo.png'
 ];
 
 const assets = {};

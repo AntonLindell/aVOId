@@ -3,21 +3,20 @@
 import {updateDirection} from './networking';
 
 function onKeyDown(e) {
-  console.log(e.code);
-  if (e.code == 'ArrowLeft') {
-    updateDirection('leftDown')
-  } else if (e.code == 'ArrowRight') {
-    updateDirection('rightDown')
-  }
+    console.log(e.code);
+    if (e.code === 'ArrowLeft') {
+        updateDirection('leftDown');
+    } else if (e.code === 'ArrowRight') {
+        updateDirection('rightDown');
+    }
 }
 
 function onKeyUp(e) {
-  console.log(e.code);
-  if (e.code == 'ArrowLeft') {
-    updateDirection('leftUp')
-  } else if (e.code == 'ArrowRight') {
-    updateDirection('rightUp') //2/(2*Math.PI)
-  }
+    if (e.code === 'ArrowLeft') {
+        updateDirection('leftUp');
+    } else if (e.code === 'ArrowRight') {
+        updateDirection('rightUp');
+    }
 }
 
 export function startCapturingInput() {

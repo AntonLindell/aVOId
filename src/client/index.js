@@ -16,10 +16,16 @@ import './css/main.css';
 const playMenu = document.getElementById('play-menu');
 const playButton = document.getElementById('play-button');
 const usernameInput = document.getElementById('username-input');
-const voiInput = document.getElementById('voi');
-const limeInput = document.getElementById('lime');
+window.addEventListener('change', setSelectedScooter);
+let selectedScooter = 'voi';
+const allowedScooters = ['voi', 'lime', 'tier', 'aimo', 'vosh', 'circ', 'moow'];
 
-const selectedScooter = voiInput.value || limeInput.value;
+function setSelectedScooter(e) {
+    const {value} = e.target;
+    if (allowedScooters.includes(value)) {
+        selectedScooter = e.target.value;
+    }
+}
 
 Promise.all([
     connect(onGameOver),

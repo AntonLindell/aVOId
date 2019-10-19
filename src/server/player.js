@@ -21,16 +21,16 @@ class Player extends ObjectClass {
 
         // Make sure the player stays in bounds
 
-        if(this.x < 0) {
+        if (this.x < 0) {
             this.x = 0;
         }
-        if(this.y < 0) {
+        if (this.y < 0) {
             this.y = 0;
         }
-        if(this.x > Constants.MAP_WIDTH) {
+        if (this.x > Constants.MAP_WIDTH) {
             this.x = Constants.MAP_WIDTH;
         }
-        if(this.y > Constants.MAP_HEIGHT) {
+        if (this.y > Constants.MAP_HEIGHT) {
             this.y = Constants.MAP_HEIGHT;
         }
 

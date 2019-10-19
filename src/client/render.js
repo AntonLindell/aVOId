@@ -19,7 +19,22 @@ setCanvasDimensions();
 
 const assets = {
     voi: 'voi-logo.svg',
-    lime: 'lime-logo.png'
+    lime: 'lime-logo.png',
+    tier: 'tier-logo.png',
+    moow: 'moow-logo.png',
+    circ: 'circ-logo.png',
+    vosh: 'vosh-logo.jpg',
+    aimo: 'aimo-logo.png'
+};
+
+const colors = {
+    voi: '#F46C62',
+    lime: '#03D400',
+    tier: '#001C6E',
+    moow: '#0082CA',
+    circ: '#FF5F00',
+    vosh: '#E9FE03',
+    aimo: 'black'
 };
 
 function setCanvasDimensions() {
@@ -75,9 +90,10 @@ function renderBackground(x, y) {
 }
 
 function renderPlayerLine(player) {
-    const {x, y, locationHistory} = player;
+    const {locationHistory, selectedScooter} = player;
     // Draw history
     context.lineWidth = 5;
+    context.strokeStyle = colors[selectedScooter];
     context.moveTo(locationHistory[locationHistory.length - 2].x, locationHistory[locationHistory.length - 2].y);
     context.lineTo(locationHistory[locationHistory.length - 1].x, locationHistory[locationHistory.length - 1].y);
     context.lineTo(player.x, player.y);
@@ -95,8 +111,6 @@ function renderPlayer(me, player) {
     const canvasX = x;
     const canvasY = y;
 
-
-    console.log(selectedScooter);
     // Draw ship
     context.save();
     context.translate(canvasX, canvasY);
