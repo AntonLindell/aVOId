@@ -45,26 +45,30 @@ class Game {
         var player1y;
         var player2x;
         var player2y;
-        var locationHistory;
+        var locationHistory = [];
         var ownLocationHistory;
 
         Object.keys(this.players).forEach(playerId => {
-            otherPlayers = Object.values(this.players).filter(p => p !== this.players[playerId]);
+            otherPlayers = this.players;//Object.values(this.players).filter(p => p !== this.players[playerId]);
             player1x = this.players[playerId].x;
             player1y = this.players[playerId].y;
             ownLocationHistory = this.players[playerId].locationHistory;
             Object.keys(otherPlayers).forEach(otherPlayerId => {
                 //gå igenom locationHistory för varje spelare
-                locationHistory = otherPlayers[otherPlayerId].locationHistory;
+                // locationHistory = otherPlayers[otherPlayerId].locationHistory;
+                if(otherPlayerId === playerId) {
+                    if(ownLocationHistory.length > 50) {
+                        locationHistory = ownLocationHistory.slice(0,ownLocationHistory.length - 50);
+                    }
+                } else {
+                    locationHistory = otherPlayers[otherPlayerId].locationHistory;
+                }
 
-                if(ownLocationHistory.length > 20) {
-                  // locationHistory.push(ownLocationHistory.slice(0,Math.max(ownLocationHistory.length - 20, 0)));
-              }
-              locationHistory.forEach((location) => {
-                player2x = location.x;
-                player2y = location.y;
+                locationHistory.forEach((location) => {
+                    player2x = location.x;
+                    player2y = location.y;
 
-                if((player1x > player2x - margin && player1x < player2x + margin) && (player1y > player2y - margin && player1y < player2y + margin)) {
+                    if((player1x > player2x - margin && player1x < player2x + margin) && (player1y > player2y - margin && player1y < player2y + margin)) {
                     // console.log("collision from " + this.players[playerId].username + " with " + otherPlayers[otherPlayerId].username);
                     if(this.players[playerId].locationHistory.length > 100) {
                         this.players[playerId].hp = 0;
@@ -74,7 +78,7 @@ class Game {
                         // this.removePlayer(this.sockets[playerId]);
                     }
                 });
-          });
+            });
         });
     }
 
