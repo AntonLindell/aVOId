@@ -3,12 +3,13 @@ const Bullet = require('./bullet');
 const Constants = require('../shared/constants');
 
 class Player extends ObjectClass {
-    constructor(id, username, x, y) {
+    constructor(id, username, x, y, selectedScooter) {
         super(id, x, y, Math.random() * 2 * Math.PI, Constants.PLAYER_SPEED);
         this.username = username;
         this.hp = Constants.PLAYER_MAX_HP;
         this.fireCooldown = 0;
         this.score = 0;
+        this.selectedScooter = selectedScooter;
     }
 
     // Returns a newly created bullet, or null.
@@ -55,7 +56,8 @@ class Player extends ObjectClass {
         return {
             ...(super.serializeForUpdate()),
             direction: this.direction,
-            hp: this.hp
+            hp: this.hp,
+            selectedScooter: this.selectedScooter
         };
     }
 }

@@ -12,13 +12,13 @@ class Game {
         setInterval(this.update.bind(this), 1000 / 60);
     }
 
-    addPlayer(socket, username) {
+    addPlayer(socket, username, selectedScooter) {
         this.sockets[socket.id] = socket;
 
         // Generate a position to start this player at.
         const x = Constants.MAP_SIZE * (0.25 + Math.random() * 0.5);
         const y = Constants.MAP_SIZE * (0.25 + Math.random() * 0.5);
-        this.players[socket.id] = new Player(socket.id, username, x, y);
+        this.players[socket.id] = new Player(socket.id, username, x, y, selectedScooter);
     }
 
     removePlayer(socket) {

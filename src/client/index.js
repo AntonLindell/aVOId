@@ -16,6 +16,10 @@ import './css/main.css';
 const playMenu = document.getElementById('play-menu');
 const playButton = document.getElementById('play-button');
 const usernameInput = document.getElementById('username-input');
+const voiInput = document.getElementById('voi');
+const limeInput = document.getElementById('lime');
+
+const selectedScooter = voiInput.value || limeInput.value;
 
 Promise.all([
     connect(onGameOver),
@@ -25,7 +29,7 @@ Promise.all([
     usernameInput.focus();
     playButton.onclick = () => {
         // Play!
-        play(usernameInput.value);
+        play(usernameInput.value, selectedScooter);
         playMenu.classList.add('hidden');
         initState();
         startCapturingInput();

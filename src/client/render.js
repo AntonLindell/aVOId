@@ -17,6 +17,11 @@ context.strokeStyle = 'red';
 
 setCanvasDimensions();
 
+const assets = {
+    voi: 'voi-logo.svg',
+    lime: 'lime-logo.png'
+};
+
 function setCanvasDimensions() {
     // On small screens (e.g. phones), we want to "zoom out" so players can still see at least
     // 800 in-game units of width.
@@ -84,18 +89,20 @@ function renderPlayerLine(player) {
 }
 // Renders a ship at the given coordinates
 function renderPlayer(me, player) {
-    const {x, y, direction, locationHistory} = player;
+    const {x, y, direction, selectedScooter} = player;
     // const canvasX = canvas.width / 2 + x - me.x;
     // const canvasY = canvas.height / 2 + y - me.y;
     const canvasX = x;
     const canvasY = y;
 
+
+    console.log(selectedScooter);
     // Draw ship
     context.save();
     context.translate(canvasX, canvasY);
     context.rotate(direction);
     context.drawImage(
-        getAsset('voi-logo.svg'),
+        getAsset(assets[selectedScooter]),
         -PLAYER_RADIUS,
         -PLAYER_RADIUS,
         PLAYER_RADIUS * 2,
@@ -103,33 +110,7 @@ function renderPlayer(me, player) {
     );
 
     context.restore();
-    // Draw health bar
-    // context.fillStyle = 'white';
-    // context.fillRect(
-    //   canvasX - PLAYER_RADIUS,
-    //   canvasY + PLAYER_RADIUS + 8,
-    //   PLAYER_RADIUS * 2,
-    //   2,
-    // );
-    // context.fillStyle = 'red';
-    // context.fillRect(
-    //   canvasX - PLAYER_RADIUS + PLAYER_RADIUS * 2 * player.hp / PLAYER_MAX_HP,
-    //   canvasY + PLAYER_RADIUS + 8,
-    //   PLAYER_RADIUS * 2 * (1 - player.hp / PLAYER_MAX_HP),
-    //   2,
-    // );
 }
-
-// function renderBullet(me, bullet) {
-//   const { x, y } = bullet;
-//   context.drawImage(
-//     getAsset('bullet.svg'),
-//     canvas.width / 2 + x - me.x - BULLET_RADIUS,
-//     canvas.height / 2 + y - me.y - BULLET_RADIUS,
-//     BULLET_RADIUS * 2,
-//     BULLET_RADIUS * 2,
-//   );
-// }
 
 function renderMainMenu() {
     const t = Date.now() / 7500;

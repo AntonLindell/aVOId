@@ -29,8 +29,8 @@ export const connect = onGameOver => (
     })
 );
 
-export const play = (username) => {
-    socket.emit(Constants.MSG_TYPES.JOIN_GAME, username);
+export const play = (username, selectedScooter) => {
+    socket.emit(Constants.MSG_TYPES.JOIN_GAME, username, selectedScooter);
 };
 
 export const updateDirection = throttle(20, (dir) => {
