@@ -1,7 +1,7 @@
 module.exports = Object.freeze({
     PLAYER_RADIUS: 20,
     PLAYER_MAX_HP: 100,
-    PLAYER_SPEED: 400,
+    PLAYER_SPEED: 100,
     PLAYER_FIRE_COOLDOWN: 0.25,
 
     BULLET_RADIUS: 3,
@@ -17,5 +17,7 @@ module.exports = Object.freeze({
         GAME_UPDATE: 'update',
         INPUT: 'input',
         GAME_OVER: 'dead'
-    }
+    },
+    MAP_WIDTH: 1440,
+    MAP_HEIGHT: 900
 });
