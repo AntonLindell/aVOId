@@ -21,7 +21,7 @@ class Object {
     }
 
     setDirection(dir) {
-        this.direction = dir;
+        this.direction = this.direction + dir;
     }
 
     serializeForUpdate() {

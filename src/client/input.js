@@ -11,21 +11,38 @@ function onTouchInput(e) {
     handleInput(touch.clientX, touch.clientY);
 }
 
+function onKeyInput(e) {
+    console.log(e.code);
+    if (e.code == 'ArrowLeft') {
+      updateDirection(-1/(2*Math.PI))
+    } else if (e.code == 'ArrowRight') {
+      updateDirection(1/(2*Math.PI))
+    }
+    //shandleKeyInput(touch.clientX, touch.clientY);
+}
+
 function handleInput(x, y) {
     const dir = Math.atan2(x - window.innerWidth / 2, window.innerHeight / 2 - y);
+    console.log(dir);
+    updateDirection(dir);
+}
+function handleKeyInput(x, y) {
+    const dir = Math.atan2(x - window.innerWidth / 2, window.innerHeight / 2 - y);
+
     updateDirection(dir);
 }
 
 export function startCapturingInput() {
-    window.addEventListener('mousemove', onMouseInput);
-    window.addEventListener('click', onMouseInput);
-    window.addEventListener('touchstart', onTouchInput);
-    window.addEventListener('touchmove', onTouchInput);
+    //window.addEventListener('mousemove', onMouseInput);
+    //window.addEventListener('click', onMouseInput);
+    //window.addEventListener('touchstart', onTouchInput);
+    //window.addEventListener('touchmove', onTouchInput);
+    window.addEventListener('keydown', onKeyInput);
 }
 
 export function stopCapturingInput() {
-    window.removeEventListener('mousemove', onMouseInput);
-    window.removeEventListener('click', onMouseInput);
-    window.removeEventListener('touchstart', onTouchInput);
-    window.removeEventListener('touchmove', onTouchInput);
+    //window.removeEventListener('mousemove', onMouseInput);
+    //window.removeEventListener('click', onMouseInput);
+    //window.removeEventListener('touchstart', onTouchInput);
+    //window.removeEventListener('touchmove', onTouchInput);
 }
