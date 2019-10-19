@@ -98,9 +98,7 @@ class Game {
     }
 
     createUpdate(player, leaderboard) {
-        const nearbyPlayers = Object.values(this.players).filter(
-            p => p !== player && p.distanceTo(player) <= Constants.MAP_SIZE / 2
-        );
+        const nearbyPlayers = Object.values(this.players).filter(p => p !== player);
         const nearbyBullets = this.bullets.filter(
             b => b.distanceTo(player) <= Constants.MAP_SIZE / 2
         );

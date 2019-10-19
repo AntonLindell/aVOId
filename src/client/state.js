@@ -111,3 +111,4 @@ function interpolateDirection(d1, d2, ratio) {
         return d1 + (d2 - d1) * ratio;
     }
 }
+

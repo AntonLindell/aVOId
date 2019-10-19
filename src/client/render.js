@@ -8,6 +8,9 @@ const Constants = require('../shared/constants');
 
 const {PLAYER_RADIUS, MAP_SIZE} = Constants;
 
+// every players last seen position locally for client
+// const playersPositions = [];
+
 // Get the canvas graphics context
 const canvas = document.getElementById('game-canvas');
 const context = canvas.getContext('2d');
@@ -49,6 +52,7 @@ window.addEventListener('resize', debounce(40, setCanvasDimensions));
 
 function render() {
     const {me, others} = getCurrentState();
+    // console.log(others);
     if (!me) {
         return;
     }
@@ -68,7 +72,7 @@ function render() {
     // others.forEach(renderPlayerLine.bind(player));
     others.forEach((player) => {
         renderPlayerLine(player);
-        console.log(player);
+        // console.log(player);
     });
 }
 
@@ -82,7 +86,7 @@ function renderBackground(x, y) {
         backgroundX,
         backgroundY,
         MAP_SIZE / 2
-    );
+        );
     backgroundGradient.addColorStop(0, 'gray');
     backgroundGradient.addColorStop(1, 'gray');
     context.fillStyle = backgroundGradient;
@@ -93,14 +97,42 @@ function renderPlayerLine(player) {
     const {locationHistory, selectedScooter} = player;
     // Draw history
     context.lineWidth = 5;
+<<<<<<< HEAD
     context.strokeStyle = colors[selectedScooter];
     context.moveTo(locationHistory[locationHistory.length - 2].x, locationHistory[locationHistory.length - 2].y);
     context.lineTo(locationHistory[locationHistory.length - 1].x, locationHistory[locationHistory.length - 1].y);
-    context.lineTo(player.x, player.y);
+=======
 
-    // locationHistory.forEach(function(location) {
-    //     context.lineTo(location.x, location.y);
-    // });
+    const players = {
+        'player1Id': [],
+        'player2Id': []
+    }
+
+    context.moveTo(locationHistory[0].x, locationHistory[0].y);
+    locationHistory.forEach(function(location) {
+        context.lineTo(location.x, location.y);
+    });
+>>>>>>> Draw others
+    context.lineTo(player.x, player.y);
+    context.stroke();
+}
+
+function renderOtherPlayersLine(player) {
+    const {locationHistoryFull} = player;
+
+    playersPositions[player.id] = {x: player.x, y: player.y};
+
+
+    var locationHistory = getLocationHistoryAfterLastSeenLocation(playersPositions[player.id],locationHistoryFull);
+
+    // Draw history
+    context.lineWidth = 5;
+
+    context.moveTo(locationHistory[0].x, locationHistory[0].y);
+    locationHistory.forEach(function(location) {
+        context.lineTo(location.x, location.y);
+    });
+    context.lineTo(player.x, player.y);
     context.stroke();
 }
 // Renders a ship at the given coordinates
@@ -121,7 +153,7 @@ function renderPlayer(me, player) {
         -PLAYER_RADIUS,
         PLAYER_RADIUS * 2,
         PLAYER_RADIUS * 2
-    );
+        );
 
     context.restore();
 }
