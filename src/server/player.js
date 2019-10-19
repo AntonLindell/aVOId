@@ -2,6 +2,26 @@ const ObjectClass = require('./object');
 const Bullet = require('./bullet');
 const Constants = require('../shared/constants');
 
+const logos = {
+    voi: 'voi-logo.svg',
+    lime: 'lime-logo.png',
+    tier: 'tier-logo.png',
+    moow: 'moow-logo.png',
+    circ: 'circ-logo.png',
+    vosh: 'vosh-logo.jpg',
+    aimo: 'aimo-logo.png'
+};
+
+const colors = {
+    voi: '#F46C62',
+    lime: '#03D400',
+    tier: '#001C6E',
+    moow: '#0082CA',
+    circ: '#FF5F00',
+    vosh: '#E9FE03',
+    aimo: 'black'
+};
+
 class Player extends ObjectClass {
     constructor(id, username, x, y, selectedScooter) {
         super(id, x, y, Math.random() * 2 * Math.PI, Constants.PLAYER_SPEED);
@@ -11,6 +31,8 @@ class Player extends ObjectClass {
         this.score = 0;
         this.selectedScooter = selectedScooter;
         this.collision = false;
+        this.logo = logos[selectedScooter];
+        this.color = colors[selectedScooter];
     }
 
     // Returns a newly created bullet, or null.
@@ -58,8 +80,10 @@ class Player extends ObjectClass {
             ...(super.serializeForUpdate()),
             direction: this.direction,
             hp: this.hp,
+            collision: this.collision,
             selectedScooter: this.selectedScooter,
-            collision: this.collision
+            logo: this.logo,
+            color: this.color
         };
     }
 }

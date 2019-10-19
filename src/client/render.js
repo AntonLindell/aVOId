@@ -14,9 +14,7 @@ const {PLAYER_RADIUS, MAP_SIZE} = Constants;
 // Get the canvas graphics context
 const canvas = document.getElementById('game-canvas');
 const context = canvas.getContext('2d');
-context.lineCap = 'round';
-context.lineWidth = 3;
-context.strokeStyle = 'red';
+let renderCurrent = true;
 
 setCanvasDimensions();
 
@@ -30,15 +28,15 @@ const assets = {
     aimo: 'aimo-logo.png'
 };
 
-const colors = {
-    voi: '#F46C62',
-    lime: '#03D400',
-    tier: '#001C6E',
-    moow: '#0082CA',
-    circ: '#FF5F00',
-    vosh: '#E9FE03',
-    aimo: 'black'
-};
+// const colors = {
+//     voi: '#F46C62',
+//     lime: '#03D400',
+//     tier: '#001C6E',
+//     moow: '#0082CA',
+//     circ: '#FF5F00',
+//     vosh: '#E9FE03',
+//     aimo: 'black'
+// };
 
 function setCanvasDimensions() {
     // On small screens (e.g. phones), we want to "zoom out" so players can still see at least
@@ -52,26 +50,23 @@ window.addEventListener('resize', debounce(40, setCanvasDimensions));
 
 function render() {
     const {me, others} = getCurrentState();
-    // console.log(others);
     if (!me) {
         return;
     }
 
     // Draw background
     renderBackground(me.x, me.y);
-
-    // Draw boundaries
-    context.strokeStyle = 'black';
-    context.lineWidth = 1;
-    // context.strokeRect(canvas.width / 2 - me.x, canvas.height / 2 - me.y, MAP_SIZE, MAP_SIZE);
-
-    // Draw all players
-    renderPlayer(me, me);
+    if (renderCurrent === true) {
+        console.log('here');
+        renderCurrentState();
+        renderCurrent = false;
+    }
     renderPlayerLine(me);
-    others.forEach(renderPlayer.bind(null, me));
     others.forEach((player) => {
         renderPlayerLine(player);
     });
+    renderPlayer(me, me);
+    others.forEach(player => renderPlayer(me, player));
 }
 
 function renderBackground(x, y) {
@@ -84,7 +79,7 @@ function renderBackground(x, y) {
         backgroundX,
         backgroundY,
         MAP_SIZE / 2
-        );
+    );
     backgroundGradient.addColorStop(0, 'gray');
     backgroundGradient.addColorStop(1, 'gray');
     context.fillStyle = backgroundGradient;
@@ -92,44 +87,36 @@ function renderBackground(x, y) {
 }
 
 function renderPlayerLine(player) {
-    const {locationHistory, selectedScooter} = player;
-    // Draw history
-    // context.beginPath();
+    const {locationHistory} = player;
 
+    // Draw history
     context.lineWidth = 5;
-    context.strokeStyle = colors[selectedScooter];
+    context.strokeStyle = 'black';
     context.moveTo(locationHistory[0].x, locationHistory[0].y);
-    locationHistory.forEach(function(location) {
+    locationHistory.forEach((location) => {
         context.lineTo(location.x, location.y);
     });
     context.lineTo(player.x, player.y);
     context.stroke();
-
 }
 
-// function renderOtherPlayersLine(player) {
-//     const {locationHistoryFull} = player;
+function renderPlayerLineWithFullHistory(player) {
+    const {fullHistory} = player;
 
-//     playersPositions[player.id] = {x: player.x, y: player.y};
+    // Draw history
+    context.lineWidth = 5;
+    context.strokeStyle = 'black';
+    context.moveTo(fullHistory[0].x, fullHistory[0].y);
+    fullHistory.forEach((location) => {
+        context.lineTo(location.x, location.y);
+    });
+    context.lineTo(player.x, player.y);
+    context.stroke();
+}
 
-
-//     var locationHistory = getLocationHistoryAfterLastSeenLocation(playersPositions[player.id],locationHistoryFull);
-
-//     // Draw history
-//     context.lineWidth = 5;
-
-//     context.moveTo(locationHistory[0].x, locationHistory[0].y);
-//     locationHistory.forEach(function(location) {
-//         context.lineTo(location.x, location.y);
-//     });
-//     context.lineTo(player.x, player.y);
-//     context.stroke();
-// }
 // Renders a ship at the given coordinates
 function renderPlayer(me, player) {
     const {x, y, direction, selectedScooter} = player;
-    // const canvasX = canvas.width / 2 + x - me.x;
-    // const canvasY = canvas.height / 2 + y - me.y;
     const canvasX = x;
     const canvasY = y;
 
@@ -143,8 +130,7 @@ function renderPlayer(me, player) {
         -PLAYER_RADIUS,
         PLAYER_RADIUS * 2,
         PLAYER_RADIUS * 2
-        );
-
+    );
     context.restore();
 }
 
@@ -167,4 +153,17 @@ export function startRendering() {
 export function stopRendering() {
     clearInterval(renderInterval);
     renderInterval = setInterval(renderMainMenu, 1000 / 60);
+}
+
+export function renderCurrentState() {
+    const {me, others} = getCurrentState();
+    if (!me) {
+        return;
+    }
+
+    // Draw background
+    renderPlayerLineWithFullHistory(me);
+    others.forEach((player) => {
+        renderPlayerLineWithFullHistory(player);
+    });
 }

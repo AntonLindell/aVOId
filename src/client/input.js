@@ -25,5 +25,5 @@ export function startCapturingInput() {
 }
 
 export function stopCapturingInput() {
-    window.addEventListener('keydown', onKeyInput);
+    window.addEventListener('keydown', null);
 }
