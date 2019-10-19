@@ -64,7 +64,7 @@ function render() {
 
     context.strokeStyle = 'black';
     context.lineWidth = 1;
-    context.strokeRect(0, 0, MAP_HEIGHT, MAP_WIDTH);
+    context.strokeRect(0, 0, Constants.MAP_WIDTH, Constants.MAP_HEIGHT);
 
     renderPlayerLine(me);
     others.forEach((player) => {
