@@ -6,12 +6,17 @@ class Object {
         this.direction = dir;
         this.speed = speed;
         this.locationHistory = [{x, y}];
+        this.lastDirection = dir;
     }
 
     update(dt) {
         this.x += dt * this.speed * Math.sin(this.direction);
         this.y -= dt * this.speed * Math.cos(this.direction);
-        this.locationHistory.push({x: this.x, y: this.y});
+
+        if(this.lastDirection !== this.direction) {
+            this.locationHistory.push({x: this.x, y: this.y});
+        }
+        this.lastDirection = this.direction;
     }
 
     distanceTo(object) {

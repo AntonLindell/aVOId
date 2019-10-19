@@ -41,11 +41,9 @@ function render() {
     context.lineWidth = 1;
     context.strokeRect(canvas.width / 2 - me.x, canvas.height / 2 - me.y, MAP_SIZE, MAP_SIZE);
 
-    // Draw all bullets
-    // bullets.forEach(renderBullet.bind(null, me));
-
     // Draw all players
     renderPlayer(me, me);
+    renderPlayerLine(me);
     others.forEach(renderPlayer.bind(null, me));
 }
 
@@ -60,15 +58,25 @@ function renderBackground(x, y) {
         backgroundY,
         MAP_SIZE / 2
     );
-    backgroundGradient.addColorStop(0, 'black');
+    backgroundGradient.addColorStop(0, 'gray');
     backgroundGradient.addColorStop(1, 'gray');
     context.fillStyle = backgroundGradient;
     context.fillRect(0, 0, canvas.width, canvas.height);
 }
 
+function renderPlayerLine(player) {
+    const {locationHistory} = player;
+    // Draw history
+    context.lineWidth = 5;
+    context.moveTo(locationHistory[0].x, locationHistory[0].y);
+    locationHistory.forEach(function(location) {
+        context.lineTo(location.x, location.y);
+    });
+    context.stroke();
+}
 // Renders a ship at the given coordinates
 function renderPlayer(me, player) {
-    const {x, y, direction} = player;
+    const {x, y, direction, locationHistory} = player;
     const canvasX = canvas.width / 2 + x - me.x;
     const canvasY = canvas.height / 2 + y - me.y;
 
