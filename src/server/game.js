@@ -48,7 +48,7 @@ class Game {
         var locationHistory;
         var ownLocationHistory;
 
-      Object.keys(this.players).forEach(playerId => {
+        Object.keys(this.players).forEach(playerId => {
             otherPlayers = Object.values(this.players).filter(p => p !== this.players[playerId]);
             player1x = this.players[playerId].x;
             player1y = this.players[playerId].y;
@@ -59,20 +59,22 @@ class Game {
 
                 if(ownLocationHistory.length > 20) {
                   // locationHistory.push(ownLocationHistory.slice(0,Math.max(ownLocationHistory.length - 20, 0)));
-                }
-                locationHistory.forEach((location) => {
-                    player2x = location.x;
-                    player2y = location.y;
+              }
+              locationHistory.forEach((location) => {
+                player2x = location.x;
+                player2y = location.y;
 
-                    if((player1x > player2x - margin && player1x < player2x + margin) && (player1y > player2y - margin && player1y < player2y + margin)) {
-                        console.log("collision from " + this.players[playerId].username + " with " + otherPlayers[otherPlayerId].username);
+                if((player1x > player2x - margin && player1x < player2x + margin) && (player1y > player2y - margin && player1y < player2y + margin)) {
+                    // console.log("collision from " + this.players[playerId].username + " with " + otherPlayers[otherPlayerId].username);
+                    if(this.players[playerId].locationHistory.length > 100) {
+                        this.players[playerId].hp = 0;
+                    }
 
-                      this.players[playerId].hp = 0;
                         // this.sockets[playerId].emit(Constants.MSG_TYPES.GAME_OVER);
                         // this.removePlayer(this.sockets[playerId]);
                     }
                 });
-            });
+          });
         });
     }
 
@@ -88,8 +90,8 @@ class Game {
         this.powerUps.forEach(powerUp => {
             if (powerUp.update(dt)) {
                 // Destroy this bullet
-              powerUpsToRemove.push(powerUp);
-                }
+                powerUpsToRemove.push(powerUp);
+            }
         });
         this.powerUps = this.powerUps.filter(powerUp => !powerUpsToRemove.includes(powerUp));
 

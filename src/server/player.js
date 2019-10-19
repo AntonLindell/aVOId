@@ -33,6 +33,7 @@ class Player extends ObjectClass {
         this.logo = logos[selectedScooter];
         this.color = colors[selectedScooter];
         this.endPowerUp = 0;
+        this.invincible = this.locationHistory.length < 100;
     }
 
     // Returns a newly created bullet, or null.
@@ -86,7 +87,8 @@ class Player extends ObjectClass {
             collision: this.collision,
             selectedScooter: this.selectedScooter,
             logo: this.logo,
-            color: this.color
+            color: this.color,
+            invincible: this.invincible
         };
     }
 }
