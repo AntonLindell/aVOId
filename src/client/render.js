@@ -64,19 +64,10 @@ function renderBackground(x, y) {
     context.fillRect(0, 0, canvas.width, canvas.height);
 }
 
-<<<<<<< Updated upstream
-// Renders a ship at the given coordinates
-function renderPlayer(me, player) {
-    const {x, y, direction} = player;
-    const canvasX = canvas.width / 2 + x - me.x;
-    const canvasY = canvas.height / 2 + y - me.y;
-
-=======
 function renderPlayerLine(player) {
     const {locationHistory} = player;
     // Draw history
     context.lineWidth = 5;
-    console.log(locationHistory);
     context.moveTo(locationHistory[0].x, locationHistory[0].y);
     locationHistory.forEach(function(location) {
         context.lineTo(location.x, location.y);
@@ -89,9 +80,6 @@ function renderPlayer(me, player) {
     const canvasX = canvas.width / 2 + x - me.x;
     const canvasY = canvas.height / 2 + y - me.y;
 
-
-
->>>>>>> Stashed changes
     // Draw ship
     context.save();
     context.translate(canvasX, canvasY);

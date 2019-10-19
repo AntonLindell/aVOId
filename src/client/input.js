@@ -11,19 +11,6 @@ function onTouchInput(e) {
     handleInput(touch.clientX, touch.clientY);
 }
 
-<<<<<<< Updated upstream
-=======
-function onKeyInput(e) {
-    console.log(e.code);
-    if (e.code == 'ArrowLeft') {
-      updateDirection(-2/(2*Math.PI))
-    } else if (e.code == 'ArrowRight') {
-      updateDirection(2/(2*Math.PI))
-    }
-    //shandleKeyInput(touch.clientX, touch.clientY);
-}
-
->>>>>>> Stashed changes
 function handleInput(x, y) {
     const dir = Math.atan2(x - window.innerWidth / 2, window.innerHeight / 2 - y);
     updateDirection(dir);
