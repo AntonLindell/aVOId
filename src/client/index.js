@@ -15,7 +15,7 @@ import './css/main.css';
 
 const playMenu = document.getElementById('play-menu');
 const playButton = document.getElementById('play-button');
-const usernameInput = document.getElementById('username-input');
+// const usernameInput = document.getElementById('username-input');
 window.addEventListener('change', setSelectedScooter);
 let selectedScooter = 'voi';
 const allowedScooters = ['voi', 'lime', 'tier', 'aimo', 'vosh', 'circ', 'moow'];
@@ -32,10 +32,10 @@ Promise.all([
     downloadAssets()
 ]).then(() => {
     playMenu.classList.remove('hidden');
-    usernameInput.focus();
+    // usernameInput.focus();
     playButton.onclick = () => {
         // Play!
-        play(usernameInput.value, selectedScooter);
+        play(selectedScooter, selectedScooter);
         playMenu.classList.add('hidden');
         initState();
         startCapturingInput();

@@ -50,6 +50,8 @@ button:focus {
   align-items: center;
   border-radius: 5px;
   text-align: center;
+  width:50%;
+  height:80%;
 }
 
 #play-menu p {

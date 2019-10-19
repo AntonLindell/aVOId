@@ -15,18 +15,20 @@
 </head>
 <body>
 <canvas id="game-canvas"></canvas>
-<div id="play-menu" class="hidden">
-  <h1>The battle of scooters</h1>
-  <p>
-    Claim the largest territory (venture cap) to survive in the scooter world.
+<div id="play-menu" class="hidden" style="background:url('/assets/avoid-skriet.png');background-size: contain;background-repeat: no-repeat;">
+  <h1>aVOId</h1>
+<h2>The Scooter Battle of Stockholm</h2>
+  <p style='background: rgba(50, 50, 50, 0.5);padding:15px;color:#fff;'>
+    Claim the largest territory to survive in the scooter world. <br/>
+    Grab venture cap and other powerups to improve your odds.
     <br />
     Use your left and right arrows.
   </p>
-  <hr />
+<!--   <hr />
   <input type="text" id="username-input" placeholder="Username" />
-  <hr />
+  <hr /> -->
 
-  <div style="display: flex; flex-direction: column; align-items: flex-start">
+  <div style="display: flex; flex-direction: column; align-items: flex-start;background: rgba(50, 50, 50, 0.5);padding:15px;color:#fff;" >
     <p style="font-weight: bold; margin-bottom: 10px;">Choose your scooter:</p>
 
     <div>
@@ -64,7 +66,7 @@
       <label for="tier">Tier</label>
     </div>
   </div>
-  <button id="play-button">Join game</button>
+  <button id="play-button" style="color:#fff;background:#333;">Join game</button>
 </div>
 <div id="leaderboard" class="hidden">
   <table>
