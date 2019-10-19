@@ -61,6 +61,11 @@ function render() {
         renderCurrentState();
         renderCurrent = false;
     }
+
+    context.strokeStyle = 'black';
+    context.lineWidth = 1;
+    context.strokeRect(0, 0, MAP_HEIGHT, MAP_WIDTH);
+
     renderPlayerLine(me);
     others.forEach((player) => {
         renderPlayerLine(player);
@@ -84,7 +89,7 @@ function renderBackground(x, y) {
         backgroundX,
         backgroundY,
         MAP_SIZE / 2
-    );
+        );
     backgroundGradient.addColorStop(0, 'gray');
     backgroundGradient.addColorStop(1, 'gray');
     context.fillStyle = backgroundGradient;
@@ -135,7 +140,7 @@ function renderPlayer(me, player) {
         -PLAYER_RADIUS,
         PLAYER_RADIUS * 2,
         PLAYER_RADIUS * 2
-    );
+        );
     context.restore();
 }
 
@@ -151,7 +156,7 @@ function renderPowerUp(bullet) {
         -BULLET_RADIUS,
         BULLET_RADIUS * 2,
         BULLET_RADIUS * 2
-    );
+        );
     context.restore();
 }
 
